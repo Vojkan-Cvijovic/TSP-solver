@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 
 \usepackage[font=small,labelfont=bf]{caption}
+\providecommand{\keywords}[1]{\textbf{ključne reči:} #1}
 \usepackage[english,serbian]{babel}
 %\usepackage[english,serbianc]{babel} %ukljuciti babel sa ovim opcijama, umesto gornjim, ukoliko se koristi cirilica
 
@@ -65,9 +66,14 @@
 \maketitle
 
 \abstract{
-
+U radu je opisan algoritam zasnovan na ponašanju mrava i mravljih kolonija poznatiji kao $ACO$ (eng.~{\em ant colony optimization}). Primena algoritma je prikazana na rešavanju problema trgovačkog putnika kao jednog od najpoznatihih problema iz grupe $NP$ teških problema diskretne i kombinatorne optimizacije. Prikazana je implementacija algoritma kao i ponašanje algoritma usled promene vrednosti različitih parametara koji su ključni za sam algoritam.
 }
 
+\hfill \break
+
+\keywords{
+	Ant Colony Optimization algorithm, Travelling Salesman Problem
+}
 
 \tableofcontents
 
@@ -336,7 +342,7 @@ Prosečno vreme izvršavanja za zadate parametre je 5.32s. Najbolje optimalno re
 \label{fig:slika11}
 \end{figure}
 
-%laEksperimentalno je dokazano da kada je broj mrava jednak maksimalnom broju gradova algoritam brže konvergira ka optimalnom rešenju nego kada se koristi veći broj mrava.
+
 
 \addcontentsline{toc}{section}{Literatura}
 
