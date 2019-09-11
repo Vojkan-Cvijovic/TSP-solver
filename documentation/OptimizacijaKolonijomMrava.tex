@@ -1,6 +1,7 @@
 % !TEX encoding = UTF-8 Unicode
 \documentclass[a4paper]{article}
 
+
 \usepackage{color}
 \usepackage{url}
 \usepackage[T2A]{fontenc} % enable Cyrillic fonts
@@ -11,6 +12,11 @@
 \providecommand{\keywords}[1]{\textbf{ključne reči:} #1}
 \usepackage[english,serbian]{babel}
 %\usepackage[english,serbianc]{babel} %ukljuciti babel sa ovim opcijama, umesto gornjim, ukoliko se koristi cirilica
+
+\usepackage[table]{xcolor}
+\setlength{\arrayrulewidth}{1pt}
+\setlength{\tabcolsep}{10pt}
+\newcolumntype{s}{>{\columncolor[HTML]{AAACED}} p{2cm}}
 
 \usepackage[unicode]{hyperref}
 \hypersetup{colorlinks,citecolor=green,filecolor=green,linkcolor=blue,urlcolor=blue}
@@ -342,13 +348,59 @@ Prosečno vreme izvršavanja za zadate parametre je 5.32s. Najbolje optimalno re
 \label{fig:slika11}
 \end{figure}
 
+\subsection{Promena parametra $\alpha$}
 
+Ukoliko fiksiramo sve ostale parametre a menjamo parametar alpha, pokazuje se da najbolje rešenje za $alpha = 1.0$.
+
+U tabeli \ref{tab:alpha} mogu se videti vrednosti koje prikazuju najbolje optimalno rešenje za različite vrednosti parametra $\alpha$ kao i vreme izvršavanja koje je potrebno da bi se program izvšio.
+
+Na slici \ref{fig:alpha} može se videti odnos vrednosti parametra $\alpha$ i optimalne vrednosti za taj parametar.
+
+\hfill \break
+
+\begin{table}
+\begin{center}
+\begin{tabular}{ |p{2cm}|p{2cm}|p{2cm}|  }
+\hline
+\rowcolor{lightgray} \multicolumn{3}{|c|}{Promena parametra $\alpha$} \\
+\hline
+alpha & najbolja cena & vreme izvršavanja \\
+\hline
+\rowcolor{cyan}
+1 & 7663.58 & 5.56 \\
+2 & 7776.45 & 5.33 \\
+3  &7742.79 & 6.24 \\
+4  &7765.75 & 5.81 \\
+5 & 7878.67 & 5.9 \\
+6 & 7787.47 & 5.72  \\
+7 & 7742.78 & 5.59 \\
+8 & 7791.37 & 5.55 \\
+9 & 7704.41 & 5.64 \\
+10 & 7782.17 & 6.06 \\
+\hline
+\end{tabular}
+\end{center}
+\caption {Optimalne vrednosti za različito $\alpha$ \label{tab:alpha}}
+\end{table}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.7]{alpha.png}
+\end{center}
+\caption{Grafik $\alpha / costs$}
+\label{fig:alpha}
+\end{figure}
+
+\subsection{Promena parametra $\beta$}
+
+\newpage
 
 \addcontentsline{toc}{section}{Literatura}
 
-\bibliography{seminarski} 
+\bibliography{OptimizacijaKolonijomMrava} 
 \bibliographystyle{plain}
-
-
+\nocite{opt}
+\nocite{oppfanc}
+\nocite{aneffect}
 
 \end{document}
