@@ -66,6 +66,8 @@
 
 \abstract{
 
+}
+
 
 \tableofcontents
 
@@ -279,6 +281,60 @@ za datog mrava u matrici pheromone\_delta.
 \label{fig:slika5}
 \end{figure}
 
+\subsection{Pokretanje}
+\label{pokretanje}
+
+Funkcija kojom se pokreće izvršavanje programa je $find\_optmal\_path$, kojoj se prosleđuje ime fajla. U samoj funkciji isčitavaju se koordinate gradova i pravi se instanca funkcije $Graph$ u kojoj se 
+čuva matrica udaljenosti među gradovima. Takođe pravi se instanca klase $ACS$ koja čuva informacije o broju iteracija algoritma, broju mrava, kao i ostalim neophodnim parametrima. Potom se poziva metod $solve$ klase $ACS$ koji vraća rezultat najbolje cene puta kao i optimalnu putanju. Ova funkcija vraća listu čvorova grafa odnosno gradove, potom optimalnu putanju, cenu kao i vreme izvršavanja $solve$ funkcije. 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=1\columnwidth]{slika9.png}
+\end{center}
+\caption{Funkcija $find\_optmal\_path$}
+\label{fig:slika5}
+\end{figure}
+
+Funkcija $draw\_optimal\_path$ služi za iscrtavanje optimalne putanje. I rezultati funkcije su prikazani uz pomoć plot dijagrama na kome se nalaze gradovi i putanje između njih. Primer se može videti na slici \ref{fig:slika10}
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.7]{slika10.png}
+\end{center}
+\caption{Primer izgleda optimalne putanje za skup podataka berlin52}
+\label{fig:slika10}
+\end{figure}
+
+
+\section{Rezultati merenja}
+\label{sec:rezultati}
+
+U ovom poglavlju biće izloženi rezultati merenja za različite promene parametara koji figurišu u ACO algoritmu.
+
+Kao skup podataka za koji se vrši merenje koristi se datoteka u kojoj se čuva informacija o 52 lokacije u Berlinu. Skup podataka se može pronaći na ovoj \href{http://elib.zib.de/pub/mp-testdata/tsp/tsplib/tsp/berlin52.tsp}{adresi}. Optimalno rešenje za ovaj skup lokacija iznosi 7542.
+
+Kao početni parametri za ACO algoritam uzete su sledeće vrednosti:
+
+\begin{itemize}
+\item $ant\_count = 10$
+\item $generations = 100$
+\item $alpha = 1.0$
+\item $beta = 10.0$
+\item $rho = 0.5$
+\item $q = 10$
+
+\end{itemize}
+
+Prosečno vreme izvršavanja za zadate parametre je 5.32s. Najbolje optimalno rešenje iznosi 7663.58 sa vremenom izvršavanja 5.56s. Optimalna putanja se može videti na slici \ref{fig:slika11}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.7]{slika11.png}
+\end{center}
+\caption{Optimalna putanja}
+\label{fig:slika11}
+\end{figure}
 
 %laEksperimentalno je dokazano da kada je broj mrava jednak maksimalnom broju gradova algoritam brže konvergira ka optimalnom rešenju nego kada se koristi veći broj mrava.
 
