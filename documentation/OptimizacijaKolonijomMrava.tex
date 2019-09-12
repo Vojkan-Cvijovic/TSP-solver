@@ -72,7 +72,7 @@
 \maketitle
 
 \abstract{
-U radu je opisan algoritam zasnovan na ponašanju mrava i mravljih kolonija poznatiji kao $ACO$ (eng.~{\em ant colony optimization}). Primena algoritma je prikazana na rešavanju problema trgovačkog putnika kao jednog od najpoznatihih problema iz grupe $NP$ teških problema diskretne i kombinatorne optimizacije. Prikazana je implementacija algoritma kao i ponašanje algoritma usled promene vrednosti različitih parametara koji su ključni za sam algoritam.
+U radu je opisan algoritam zasnovan na ponašanju mrava i mravljih kolonija poznatiji kao $ACO$ (eng.~{\em ant colony optimization}). Primena algoritma je prikazana na rešavanju problema trgovačkog putnika kao jednog od najpoznatijih problema iz grupe $NP$ teških problema diskretne i kombinatorne optimizacije. Prikazana je implementacija algoritma kao i ponašanje algoritma usled promene vrednosti različitih parametara koji su ključni za sam algoritam.
 }
 
 \hfill \break
@@ -97,7 +97,7 @@ Pojam ACO (eng.~{\em ant colony optimization}), kao rezultat istraživanja prist
 
 \vspace{3mm}
 
-Algoritam ACO pripada klasi algoritama inteligencije roja (eng.~{\em Swarm intelligence}). Naime akcije insekata se temelje na interakcijama među pojedincima. Iako te interakcije izgledaju primitivno, globalno gledano često daju dobre rezultate. Takvo kolektivno ponašanje se naziva inteligencija roja. Glavne prednosti jesu fleksibilnost, u smislu brzog prilagođavanja promenljivoj okolini, potom robusnost što predstavlja otpornost na manja odstupanja, kao i sposobnost funkcionisanja bez nadzora. Optimizacija pomoću kolonije mrava je algoritam koji se koristi za nalaženje optimalnih putanja u potpuno povezanom grafu.
+Algoritam ACO pripada klasi algoritama inteligencije roja (eng.~{\em Swarm intelligence}). Naime akcije insekata se temelje na interakcijama među pojedincima. Iako te interakcije izgledaju primitivno, globalno gledano često daju dobre rezultate. Takvo kolektivno ponašanje se naziva inteligencija roja. Glavne prednosti jesu fleksibilnost, u smislu brzog prilagođavanja promenljivoj okolini, potom robusnost što predstavlja otpornost na manja odstupanja, kao i sposobnost funkcionisanja bez nadzora. Optimizacija pomoću kolonije mrava zapravo predstavlja algoritam koji se koristi za nalaženje optimalnih putanja u potpuno povezanom grafu.
 
 \section{Ponašanje mrava}
 \label{sec:ponasanjemrava}
@@ -134,11 +134,38 @@ Problem trgovačkog putnika je jedan od najpoznatijih problema iz grupe NP - te�
 \subsection{ACO algoritam za TSP i parametri}
 \label{subsec:podnaslov1}
 
-U svakom koraku ACO algoritma, mrav se nalazi u nekom čvoru \textit{i} i treba da odabere naredni čvor \textit{j} u koji treba da pređe i to između onih čvorova koje na svom putu još uvek nije posetio. Verovatnoća preslaska u naredni čvor je određena rastojanjem između čvorova \textit{i} i \textit{j} kao i količinom feromona na grani koja ih spaja. Verovatnoća prelaska je data narednom formulom:
+Neka $d_{i,j}$ predstavlja rastojanje između gradova $i$ i $j$, rastojanja između gradova mogu se predstaviti potpuno povezanim grafom gde $i$ i $j$ predstavljaju čvorove grafa, a  $d_{i,j}$ grane grafa. Neka je $t_{i,j}$ količina feromona na deonici koja povezuje $i$ i $j$. Vrednost $t_{i,j}$ se na samom početku inicijalizuje nekom malom vrednošćšu koja je ista za svaku deonicu.
+
+\hfill \break
+Algoritam se odvija u četiri koraka:
+\begin{itemize}
+\item Na slučajan način odabere se $m$ od ukupno $n$ gradova gde važi $m<=n$ i u njih se rasporedi po jedan mrav.
+\item Svaki mrav posećuje svaki grad tačno jedanput i u svakoj iteraciji ažurira listu gradova $J_{k}$ koju treba da poseti.
+\item Mrav $k$ koji se nalazi u gradu $i$ prelazi u grad $j$ gde 
+$j \in J_{k}$ sa verovatnoćom koja je data formulom \ref{1}.
+
+\item Neka je $L_{k}$ dužina puta $T_{k}$ koji je prešao mrav $k$ i $Q$ pogodno izabran pozitivan parametar. Neka važi: 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.5]{formula.png}
+\end{center}
+\label{fig:formula}
+\end{figure}
+
+i važi \ref{4}. Za pogodno izabran parametar $\rho \in$(0,1), feromonski tragovi se ažuriraju na osnovu formule \ref{3}. Parametar $\rho$ predstavlja stepen isparavanja feromona, a $\Delta t_{i,j}$ pojačanje količine feromona na deonici ($i$,$j$).
+
+\end{itemize}
+
+\hfill \break
+
+Dakle, u svakom koraku $ACO$ algoritma, mrav se nalazi u nekom čvoru \textit{i} i treba da odabere naredni čvor \textit{j} u koji treba da pređe i to između onih čvorova koje na svom putu još uvek nije posetio. Verovatnoća preslaska u naredni čvor je određena rastojanjem između čvorova \textit{i} i \textit{j} kao i količinom feromona na grani koja ih spaja. Verovatnoća prelaska je data narednom formulom:
 
 \begin{equation}\label{1}
 p_{i,j}^k = {t_{i,j}^\alpha * distance_{i,j}^{-\beta} \over \sum_{l \in J_k}^{} t_{i,j}^\alpha * distance_{i,j}^{-\beta}}
 \end{equation}
+
+\hfill \break
 
 Ova formula predstavlja verovatnoću da će mrav \textit{k} u narednoj iteraciji algoritma preći u čvor \textit{j} iz čvora \textit{i}.
 
@@ -148,6 +175,8 @@ Promenljiva $t_{i,j}^\alpha$ predstavlja količinu feromona između čvorova \te
 \begin{equation}\label{2}
 distance_{i,j} = \frac{1}{d_{i,j}}
 \end{equation}
+
+\hfill \break
 
 gde $d_{i,j}$ predstavlja rastojanje između gradova \textit{i} i \textit{j}. Što je proizvod $t_{i,j} * distance_{i,j}$ veći to je veća i verovatnoća prelaska u grad \textit{j}. Trag feromona i vidljivost podignuti su na stepene $\alpha$ i $\beta$ respektivno. Ovi parametri kontrolišu uzajamnu bitnost informacija o tragu feromona $t_{i,j}$ nasuprot informacije o udaljenosti $distance_{i,j}$.
 
@@ -168,6 +197,7 @@ U ovoj formuli \textit{m} predstavlja broj mrava, dok je $\Delta t^k_{i,j}$ koli
 \section{Implementacija}
 \label{sec:naslov1}
 
+\subsection{Klase i metode koje su korišćene}
 U samoj implementaciji korišćene su tri klase \textit{Graph}, \textit{ACS} i \textit{Ant}. 
 
 Klasa \textit{Graph} sadrži neke opšte informacije o gradovima kao što su:
@@ -191,9 +221,9 @@ Klasa \textit{ACS} (eng.~{\em ant colony system}) je klasa koja se koristi za re
 	\item \textbf{generations}: predstavlja broj iteracija samog algoritma
 	\item \textbf{ant\_count}: predstavlja broj mrava koji se kreira u svakoj iteraciji
 	\item \textbf{alpha}: pozitivan parametar iz formule \ref{1} koji određuje uticaj feromona pri određivanju narednog čvora u koji mrav treba da pređe
-	\item \textbf{beta}: pozitivan parametar iz formule \ref{1} koji određuje uticaj udaljenosti između gradova(čvorova) pri određivanju narednog čvora u koji mrav treba da pređe
+	\item \textbf{beta}: pozitivan parametar iz formule \ref{1} koji određuje uticaj udaljenosti između gradova (čvorova) pri određivanju narednog čvora u koji mrav treba da pređe
 	\item \textbf{rho}: pozitivan parametar iz formule \ref{3} koji oređuje koja količina starog feromona se prenosi u narednu iteraciju algoritma
-	\item \textbf{Q}: pozitivan parametar
+	\item \textbf{Q}: pogodno izabran pozitivan parametar
 		
 \end{itemize}
 
@@ -207,7 +237,7 @@ Klasa \textit{ACS} (eng.~{\em ant colony system}) je klasa koja se koristi za re
 \end{figure}
 
 
-Ova klasa sadrži metode \textit{update\_pheromone} i \textit{solve}.
+Ova klasa sadrži metode \textit{update\_pheromone} i \textit{solve}.\\
 Metod \textit{update\_pheromone} vrši ažuriranje matrice feromona između gradova koristeći formule koje su objašnjene u \ref{subsec:podnaslov1}.
 
 
@@ -232,15 +262,17 @@ Polje \textit{i,j} matrice feromona se ažurira tako što se na već postojeću 
 
 Metod \textit{solve} je od ključnog značaja za rešavanje problema trgovačkog putnika. Ovaj metod pronalazi najbolje rešenje u smislu najkraćeg puta koje trgovac treba da obiđe. Kao povratna vrednost same funkcije vraća se najbolje rešenje koje predstavlja putanju, odnosno čvorove grafa kao i cenu, odnosno dužinu puta. 
 
-U prvoj petlji se prolazi kroz niz iteracija koja se zadaje kao parametar grafa. U svakoj iteraciji formiraju se instance mrava. Potom se za svakog mrava iz skupa mrava u petlji prolazi niz čvorova iz grafa pri čemu mrav svaki put posećuje čvor iz skupa neposećenih čvorova sve dok ne obiđe sve čvorove. Nakon završetka te petlje računa se ukupna cena pređenog puta za trenutno izabranog mrava. Ukoliko je trenutna ukupna cena manja od najbolje, ažurira se najbolja cena, takođe ažurira se i redosled posećenih čvorova kako bi se znao put kojim je mrav prošao. Na samom kraju svaki mrav ažurira količinu feromona koju je proizveo krećući se datim grafom, taj podatak se koristi pri ažuriranju matrice feromona na nivou iteracije. 
+U prvoj petlji prolazi se kroz niz iteracija koja se zadaje kao parametar grafa. U svakoj iteraciji formiraju se instance mrava. Potom se za svakog mrava iz skupa mrava u petlji prolazi niz čvorova iz grafa pri čemu mrav svaki put posećuje čvor iz skupa neposećenih čvorova sve dok ne obiđe sve čvorove. Nakon završetka te petlje računa se ukupna cena pređenog puta za trenutno izabranog mrava. Ukoliko je trenutna ukupna cena manja od najbolje, ažurira se najbolja cena, takođe ažurira se i redosled posećenih čvorova kako bi se znao put kojim je mrav prošao. Na samom kraju svaki mrav ažurira količinu feromona koju je proizveo krećući se datim grafom, taj podatak se koristi pri ažuriranju matrice feromona na nivou iteracije. 
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=1\columnwidth]{slika4.png}
 \end{center}
-\caption{Metod solve}
+\caption{Metod $solve$}
 \label{fig:slika4}
 \end{figure}
+
+\hfill \break
 
 Klasa \textit{Ant} koja predstavlja jednog mrava u sistemu sadrži sledeće podatke o mravu:
 
@@ -263,7 +295,7 @@ Klasa \textit{Ant} koja predstavlja jednog mrava u sistemu sadrži sledeće poda
 \begin{center}
 \includegraphics[width=1\columnwidth]{slika5.png}
 \end{center}
-\caption{Metod ant}
+\caption{Metod $Ant$}
 \label{fig:slika5}
 \end{figure}
 
@@ -283,21 +315,26 @@ p_{i,j}^k = {t_{i,j}^\alpha * distance_{i,j}^{-\beta} \over \sum_{l \in J_k}^{} 
 \end{figure}
 
 Metoda \textit{update\_pheromone\_delta} vrši ažuriranje vrednosti feromona
-za datog mrava u matrici pheromone\_delta.
+za datog mrava u matrici $pheromone\_delta$.
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=1\columnwidth]{slika7.png}
 \end{center}
-\caption{Metod update\_pheromone\_delta}
+\caption{Metod $update\_pheromone\_delta$}
 \label{fig:slika5}
 \end{figure}
+
+\newpage
 
 \subsection{Pokretanje}
 \label{pokretanje}
 
 Funkcija kojom se pokreće izvršavanje programa je $find\_optmal\_path$, kojoj se prosleđuje ime fajla. U samoj funkciji isčitavaju se koordinate gradova i pravi se instanca funkcije $Graph$ u kojoj se 
 čuva matrica udaljenosti među gradovima. Takođe pravi se instanca klase $ACS$ koja čuva informacije o broju iteracija algoritma, broju mrava, kao i ostalim neophodnim parametrima. Potom se poziva metod $solve$ klase $ACS$ koji vraća rezultat najbolje cene puta kao i optimalnu putanju. Ova funkcija vraća listu čvorova grafa odnosno gradove, potom optimalnu putanju, cenu kao i vreme izvršavanja $solve$ funkcije. 
+
+
+Funkcija $draw\_optimal\_path$ služi za iscrtavanje optimalne putanje. I rezultati funkcije su prikazani uz pomoć plot dijagrama na kome se nalaze gradovi i putanje između njih. Primer se može videti na slici \ref{fig:slika10}.
 
 \begin{figure}[h!]
 \begin{center}
@@ -307,9 +344,6 @@ Funkcija kojom se pokreće izvršavanje programa je $find\_optmal\_path$, kojoj 
 \label{fig:slika5}
 \end{figure}
 
-Funkcija $draw\_optimal\_path$ služi za iscrtavanje optimalne putanje. I rezultati funkcije su prikazani uz pomoć plot dijagrama na kome se nalaze gradovi i putanje između njih. Primer se može videti na slici \ref{fig:slika10}
-
-
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.7]{slika10.png}
@@ -318,15 +352,16 @@ Funkcija $draw\_optimal\_path$ služi za iscrtavanje optimalne putanje. I rezult
 \label{fig:slika10}
 \end{figure}
 
-
+\clearpage
 \section{Rezultati merenja}
 \label{sec:rezultati}
 
-U ovom poglavlju biće izloženi rezultati merenja za različite promene parametara koji figurišu u ACO algoritmu.
+U ovom poglavlju biće izloženi rezultati merenja za različite promene parametara koji figurišu u $ACO$ algoritmu.
 
-Kao skup podataka za koji se vrši merenje koristi se datoteka u kojoj se čuva informacija o 52 lokacije u Berlinu. Skup podataka se može pronaći na ovoj \href{http://elib.zib.de/pub/mp-testdata/tsp/tsplib/tsp/berlin52.tsp}{adresi}. Optimalno rešenje za ovaj skup lokacija iznosi 7542.
+Kao skup podataka za koji se vrši merenje koristi se datoteka u kojoj se čuva informacija o 52 lokacije u Berlinu. Skup podataka se može pronaći na ovoj \href{http://elib.zib.de/pub/mp-testdata/tsp/tsplib/tsp/berlin52.tsp}{adresi}. 
 
-Kao početni parametri za ACO algoritam uzete su sledeće vrednosti:
+
+Kao početni parametri za $ACO$ algoritam uzete su sledeće vrednosti:
 
 \begin{itemize}
 \item $ant\_count = 10$
@@ -338,7 +373,7 @@ Kao početni parametri za ACO algoritam uzete su sledeće vrednosti:
 
 \end{itemize}
 
-Prosečno vreme izvršavanja za zadate parametre je 5.32s. Najbolje optimalno rešenje iznosi 7663.58 sa vremenom izvršavanja 5.56s. Optimalna putanja se može videti na slici \ref{fig:slika11}
+Prosečno vreme izvršavanja za zadate parametre je 5.32s. Najbolje optimalno rešenje iznosi 7663.58 sa vremenom izvršavanja 5.56s. Optimalna putanja se može videti na slici \ref{fig:slika11}.
 
 \begin{figure}[h!]
 \begin{center}
@@ -350,15 +385,15 @@ Prosečno vreme izvršavanja za zadate parametre je 5.32s. Najbolje optimalno re
 
 \subsection{Promena parametra $\alpha$}
 
-Ukoliko fiksiramo sve ostale parametre a menjamo parametar alpha, pokazuje se da najbolje rešenje za $alpha = 1.0$.
+Ukoliko fiksiramo sve ostale parametre a menjamo parametar $\alpha$, pokazuje se da se najbolje rešenje dobija za $alpha = 1.0$.
 
-U tabeli \ref{tab:alpha} mogu se videti vrednosti koje prikazuju najbolje optimalno rešenje za različite vrednosti parametra $\alpha$ kao i vreme izvršavanja koje je potrebno da bi se program izvšio.
+U tabeli \ref{tab:alpha} mogu se videti vrednosti koje prikazuju najbolje optimalno rešenje za različite vrednosti parametra $\alpha$ kao i vreme izvršavanja koje je potrebno da bi se program izvršio.
 
 Na slici \ref{fig:alpha} može se videti odnos vrednosti parametra $\alpha$ i optimalne vrednosti za taj parametar.
 
 \hfill \break
 
-\begin{table}
+\begin{table}[h]
 \begin{center}
 \begin{tabular}{ |p{2cm}|p{2cm}|p{2cm}|  }
 \hline
@@ -393,6 +428,84 @@ alpha & najbolja cena & vreme izvršavanja \\
 
 \subsection{Promena parametra $\beta$}
 
+Ukoliko menjamo samo parametar $\beta$ a fiksiramo sve ostale parametre najbolje rešenje se dobija za $\beta = 9.0$.  
+
+U tabeli \ref{tab:beta} mogu se videti vrednosti koje prikazuju najbolje optimalno rešenje za različite vrednosti parametra $\beta$ kao i vreme izvršavanja koje je potrebno da bi se program izvršio.
+
+Na slici \ref{fig:beta} može se videti odnos vrednosti parametra $\beta$ i optimalne vrednosti za taj parametar.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ |p{2cm}|p{2cm}|p{2cm}|  }
+\hline
+\rowcolor{lightgray} \multicolumn{3}{|c|}{Promena parametra $\beta$} \\
+\hline
+beta & najbolja cena & vreme izvršavanja \\
+\hline
+1 & 7795.66 & 5.90 \\
+2 & 7946.52 & 5.45 \\
+3 & 7681.45 & 5.76  \\
+4 & 7742.78 & 5.92 \\
+5 & 7905.59 & 5.9 \\
+6 & 7791.37 & 5.22 \\
+7 & 7818.70 & 5.73 \\
+8 & 7859.77 & 5.21 \\
+\rowcolor{cyan}
+9 & 7677.66 & 5.4 \\
+10 & 7789.98 & 5.42 \\
+11 & 7799.59 & 5.64 \\
+12 & 7802.58 & 5.6 \\
+\hline
+\end{tabular}
+\end{center}
+\caption {Optimalne vrednosti za različito $\beta$ \label{tab:beta}}
+\end{table}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.7]{beta.png}
+\end{center}
+\caption{Grafik $\beta / costs$}
+\label{fig:beta}
+\end{figure}
+
+
+\clearpage
+\subsection{Promena parametra $\rho$}
+
+Ukoliko fiksiramo sve ostale vrednosti kao što su prvobitno inicijalizovane, a menjamo parametar $\rho$, dobijamo rezultate koji se mogu videti u tabeli \ref{tab:rho} kao i na slici \ref{tab:rho}.
+Najbolju vrednost za dužinu putanje daje $\rho = 1$.
+
+\hfill \break
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ |p{2cm}|p{2cm}|p{2cm}|  }
+\hline
+\rowcolor{lightgray} \multicolumn{3}{|c|}{Promena parametra $\rho$} \\
+\hline
+alpha & najbolja cena & vreme izvršavanja \\
+\hline
+0.2 & 7687.86 & 5.44 \\
+0.4 & 7742.78 & 5.82 \\
+0.6 & 7789.98 & 5.25  \\
+0.8 & 7677.66 & 5.99 \\
+\rowcolor{cyan}
+1.0 & 7663.58 & 5.25 \\
+\hline
+\end{tabular}
+\end{center}
+\caption {Optimalne vrednosti za različito $\rho$ \label{tab:rho}}
+\end{table}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.7]{rho.png}
+\end{center}
+\caption{Grafik $\rho / costs$}
+\label{fig:rho}
+\end{figure}
+
 \newpage
 
 \addcontentsline{toc}{section}{Literatura}
@@ -402,5 +515,7 @@ alpha & najbolja cena & vreme izvršavanja \\
 \nocite{opt}
 \nocite{oppfanc}
 \nocite{aneffect}
+\nocite{mat}
+\nocite{solvingTSP}
 
 \end{document}
