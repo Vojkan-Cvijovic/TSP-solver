@@ -29,7 +29,7 @@ the ants begin to use other paths.
 
 *  Python 3
 
-  ``` sudo apt-get install python3 python3-pip```
+    ```sudo apt-get install python3 python3-pip```
 *  [Jupyter Notebook](https://jupyter.org/)
   
     ```python3 -m pip install jupyter```
@@ -43,7 +43,7 @@ the ants begin to use other paths.
 
 ### Result shown as
 
-![Image of Yaktocat](https://github.com/Vojkan-Cvijovic/TSP-solver/blob/master/presentation/alpha.png?raw=true)
+![Image of Yaktocat](https://github.com/Vojkan-Cvijovic/TSP-solver/blob/master/result.png?raw=true)
 
 
 ### Documentation (Serbian)
